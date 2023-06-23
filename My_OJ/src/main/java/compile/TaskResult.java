@@ -15,7 +15,6 @@ public class TaskResult {
     private ErrorFlag errorFlag;
     private String message;
     private String stdout;
-    private String stderr;
 
     @Override
     public String toString() {
@@ -23,7 +22,6 @@ public class TaskResult {
                 "errorFlag=" + this.getErrorFlag() +
                 ", message='" + this.getMessage() + '\'' +
                 ", stdout='" + this.getStdout() + '\'' +
-                ", stderr='" + this.getStderr() + '\'' +
                 '}';
     }
 
@@ -35,13 +33,6 @@ public class TaskResult {
         this.stdout = stdout;
     }
 
-    public String getStderr() {
-        return stderr;
-    }
-
-    public void setStderr(String stderr) {
-        this.stderr = stderr;
-    }
 
     public ErrorFlag getErrorFlag() {
         return errorFlag;
