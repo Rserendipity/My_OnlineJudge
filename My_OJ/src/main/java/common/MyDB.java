@@ -9,8 +9,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class MyDB {
-    private static final String URL = "jdbc:mysql://127.0.0.1:3306/MyOJ?characterEncoding=utf8&useSSL=false";
+    // 以下的sql服务器需要自己修改，这里使用本地的mysql作为演示
+    //private static final String URL = "jdbc:mysql://[你的服务器的ip地址]:3306/MyOJ?characterEncoding=utf8&useSSL=false";
+    private static final String URL = "jdbc:mysql://localhost:3306/MyOJ?characterEncoding=utf8&useSSL=false";
+    //private static final String USER_NAME = "[填写你的服务器sql用户名]";
     private static final String USER_NAME = "root";
+    //private static final String PASSWORD = "[填写你的服务器sql密码]";
     private static final String PASSWORD = "123456";
     private static volatile DataSource dataSource = null;
 
