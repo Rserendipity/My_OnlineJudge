@@ -37,5 +37,9 @@
 
 
     </dependencies>
+<packaging>war</packaging>
+    <build>
+        <finalName>MyOJ</finalName>
+    </build>
 
 </project>

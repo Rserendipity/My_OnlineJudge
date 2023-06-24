@@ -2,6 +2,8 @@ package compile;
 
 import javax.annotation.processing.FilerException;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 /*
@@ -39,6 +41,13 @@ public class Task {
             if (!tmpDir.mkdirs())
                 System.out.println("创建文件夹失败");
         }
+
+        if (!checkCodeSafety(question.getCode())) {
+            taskResult.setErrorFlag(TaskResult.ErrorFlag.UNSAFE_CODE);
+            taskResult.setMessage("该代码被禁止执行, 请检查是否有非法操作");
+            return taskResult;
+        }
+
         // 1. 把question的内容写入到Solution.java里
         ReaderAndWriter.writeFile(CLASS_FILE, question.getCode());
 
@@ -82,6 +91,22 @@ public class Task {
         taskResult.setErrorFlag(TaskResult.ErrorFlag.OK);
         taskResult.setStdout(ReaderAndWriter.readFile(STD_OUT));
         return taskResult;
+    }
+
+    private boolean checkCodeSafety(String code) {
+        List<String> forbiddenCode = new ArrayList<>();
+        forbiddenCode.add("Runtime");
+        forbiddenCode.add("java.io");
+        forbiddenCode.add("java.net");
+        forbiddenCode.add("exec");
+        for(String s : forbiddenCode) {
+            int pos = code.indexOf(s);
+            if (pos != -1) {
+                // 出现了这些不安全代码, 返回false
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void main(String[] args) throws FilerException, InterruptedException {

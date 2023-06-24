@@ -25,8 +25,8 @@ public class CompileServlet extends HttpServlet {
     }
 
     static class CompileResponse {
-        public TaskResult.ErrorFlag errorFlag;
-        public String reason;
+        public int errorFlag;
+        public String errReason;
         public String stdout;
     }
 
@@ -67,16 +67,16 @@ public class CompileServlet extends HttpServlet {
             Task task = new Task();
             TaskResult taskResult = task.compileAndRun(question);
             // 6. 将执行写入对象
-            compileResponse.errorFlag = taskResult.getErrorFlag();
-            compileResponse.reason = taskResult.getMessage();
+            compileResponse.errorFlag = 0;
+            compileResponse.errReason = taskResult.getMessage();
             compileResponse.stdout = taskResult.getStdout();
 
         } catch (ProblemNotFoundException e) {
-            compileResponse.errorFlag = TaskResult.ErrorFlag.UNSAFE_CODE;
-            compileResponse.reason = "题目未找到";
+            compileResponse.errorFlag = 1;
+            compileResponse.errReason = "题目未找到";
         } catch (UnsafeCodeException e) {
-            compileResponse.errorFlag = TaskResult.ErrorFlag.UNSAFE_CODE;
-            compileResponse.reason = "代码非法";
+            compileResponse.errorFlag = 2;
+            compileResponse.errReason = "代码非法";
         } finally {
             // 7. 把对象转成json-String
             String json = objectMapper.writeValueAsString(compileResponse);
